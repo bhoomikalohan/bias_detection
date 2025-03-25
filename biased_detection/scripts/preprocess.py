@@ -7,18 +7,19 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 
 # Define paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_DIR, "../dataset/bias_data.csv")
-VECTORIZER_PATH = os.path.join(BASE_DIR, "../models/vectorizer.pkl")
+DATASET_PATH = r"C:\Users\MANBHAV\Downloads\labeled_data.csv"
+VECTORIZER_PATH = r"C:\Users\MANBHAV\Documents\vectorizer.pkl"  # Adjust path as needed
+
 
 # Load dataset
-def load_data(file_path):
-    df = pd.read_csv(file_path)
+def load_data(filepath):
+    df = pd.read_csv(filepath)
+    df = df[['tweet', 'class']]  # Keep only relevant columns
     return df
 
 # Text cleaning function
 def clean_text(text):
-    text = text.lower()  # Convert to lowercase
+    text = str(text).lower()  # Convert to lowercase
     text = re.sub(r'\[.*?\]', '', text)  # Remove text inside brackets
     text = re.sub(f"[{string.punctuation}]", "", text)  # Remove punctuation
     text = re.sub(r'\d+', '', text)  # Remove numbers
@@ -27,7 +28,9 @@ def clean_text(text):
 
 # Preprocess dataset
 def preprocess_data(df):
-    df['clean_text'] = df['text'].apply(clean_text)
+    if 'tweet' not in df.columns or 'class' not in df.columns:
+        raise ValueError("Dataset must contain 'tweet' and 'class' columns")
+    df['clean_text'] = df['tweet'].apply(clean_text)
     return df
 
 # Split and vectorize data
@@ -35,9 +38,6 @@ def vectorize_data(df):
     vectorizer = TfidfVectorizer(max_features=5000)
     X = vectorizer.fit_transform(df['clean_text'])
     y = df['class']  # 1 = biased, 0 = unbiased
-
-    # Ensure models directory exists
-    os.makedirs(os.path.dirname(VECTORIZER_PATH), exist_ok=True)
     
     # Save vectorizer
     joblib.dump(vectorizer, VECTORIZER_PATH)
