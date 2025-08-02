@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bias Detection Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Reset & Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Main Tool Container --- */
+        .container {
+            background-color: #1e1e1e; /* Slightly lighter card background */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        /* --- Typography --- */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+            /* A subtle gradient for the title */
+            background: linear-gradient(90deg, #4a90e2, #8A2BE2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #a0a0a0;
+        }
+
+        /* --- Form Elements --- */
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 25px;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            background-color: #2b2b2b;
+            color: #e0e0e0;
+            border: 2px solid #444;
+            border-radius: 10px;
+            resize: vertical; /* Allow vertical resizing */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        textarea::placeholder {
+            color: #777;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4a90e2; /* Highlight color on focus */
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-image: linear-gradient(90deg, #4a90e2, #5061c9);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* --- Result Display --- */
+        #result {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            min-height: 30px; /* Prevents layout jump */
+            line-height: 1.5;
+        }
+        
+        /* Example result styles (you can trigger these with JS) */
+        .result-safe { color: #2ecc71; } /* Green */
+        .result-biased { color: #f39c12; } /* Orange */
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Bias Detection Tool</h2>
+        <p>Enter any text below to analyze it for potential bias.</p>
+        <textarea id="userInput" placeholder="Paste or type your text here..."></textarea><br>
+        <button onclick="analyzeText()">Check for Bias</button>
+        <div id="result">
+            </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
